@@ -27,6 +27,19 @@ export default {
     theme: {
         switchToLight: "Switch to light theme",
         switchToDark: "Switch to dark theme"
+    },
+    watermarkDetector: {
+        title: "Watermark Detector",
+        description: "Upload an image to detect hidden watermarks",
+        selectFile: "Select image file",
+        detecting: "Detecting...",
+        detect: "Detect Watermark",
+        reset: "Reset",
+        results: {
+            found: "Watermark detected",
+            notFound: "No watermark detected",
+            error: "Detection failed"
+        }
     }
   },
   transformationSelector: {

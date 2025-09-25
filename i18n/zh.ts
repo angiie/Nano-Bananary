@@ -27,6 +27,19 @@ export default {
     theme: {
         switchToLight: "切换到浅色主题",
         switchToDark: "切换到深色主题"
+    },
+    watermarkDetector: {
+        title: "水印检测器",
+        description: "上传图片以检测其中的隐藏水印",
+        selectFile: "选择图片文件",
+        detecting: "检测中...",
+        detect: "检测水印",
+        reset: "重置",
+        results: {
+            found: "检测到水印",
+            notFound: "未检测到水印",
+            error: "检测失败"
+        }
     }
   },
   transformationSelector: {

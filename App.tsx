@@ -14,6 +14,7 @@ import HistoryPanel from './components/HistoryPanel';
 import { useTranslation } from './i18n/context';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import WatermarkDetector from './components/WatermarkDetector';
 
 type ActiveTool = 'mask' | 'none';
 
@@ -58,6 +59,7 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<GeneratedContent[]>([]);
   const [isHistoryPanelOpen, setIsHistoryPanelOpen] = useState<boolean>(false);
   const [activeCategory, setActiveCategory] = useState<Transformation | null>(null);
+  const [showWatermarkDetector, setShowWatermarkDetector] = useState<boolean>(false);
   
   useEffect(() => {
     try {
@@ -279,6 +281,10 @@ const App: React.FC = () => {
   
   const toggleHistoryPanel = () => setIsHistoryPanelOpen(prev => !prev);
   
+  const toggleWatermarkDetector = () => {
+    setShowWatermarkDetector(!showWatermarkDetector);
+  };
+  
   const handleUseHistoryImageAsInput = (imageUrl: string) => {
       handleUseImageAsInput(imageUrl);
       setIsHistoryPanelOpen(false);
@@ -445,6 +451,20 @@ const App: React.FC = () => {
               </svg>
               <span className="hidden sm:inline">{t('app.history')}</span>
             </button>
+            <button
+              onClick={toggleWatermarkDetector}
+              className={`flex items-center gap-2 py-2 px-3 text-sm font-semibold rounded-md transition-colors duration-200 ${
+                showWatermarkDetector 
+                  ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-[var(--text-on-accent)]' 
+                  : 'text-[var(--text-primary)] bg-[rgba(107,114,128,0.2)] hover:bg-[rgba(107,114,128,0.4)]'
+              }`}
+              aria-label="Toggle watermark detector"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="hidden sm:inline">{t('app.watermarkDetector.title')}</span>
+            </button>
             <LanguageSwitcher />
             <ThemeSwitcher />
           </div>
@@ -452,7 +472,22 @@ const App: React.FC = () => {
       </header>
 
       <main>
-        {!selectedTransformation ? (
+        {showWatermarkDetector ? (
+          <div className="container mx-auto p-4 md:p-8 animate-fade-in">
+            <div className="mb-8">
+              <button
+                onClick={toggleWatermarkDetector}
+                className="flex items-center gap-2 text-[var(--accent-primary)] hover:text-[var(--accent-primary-hover)] transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-[rgba(107,114,128,0.1)]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                {t('app.back')}
+              </button>
+            </div>
+            <WatermarkDetector />
+          </div>
+        ) : !selectedTransformation ? (
           <TransformationSelector 
             transformations={transformations} 
             onSelect={handleSelectTransformation} 

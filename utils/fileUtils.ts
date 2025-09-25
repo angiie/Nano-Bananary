@@ -79,6 +79,24 @@ const textToBinary = (text: string): string => {
 };
 
 /**
+ * Converts binary string to text.
+ * @param binary The binary string to convert.
+ * @returns The decoded text.
+ */
+const binaryToText = (binary: string): string => {
+    const chars = [];
+    for (let i = 0; i < binary.length; i += 8) {
+        const byte = binary.slice(i, i + 8);
+        if (byte.length === 8) {
+            const charCode = parseInt(byte, 2);
+            if (charCode === 0) break; // Stop at null character
+            chars.push(String.fromCharCode(charCode));
+        }
+    }
+    return chars.join('');
+};
+
+/**
  * Embeds an invisible watermark into an image using steganography (LSB).
  * @param imageUrl The data URL of the image to watermark.
  * @param text The text to embed.
@@ -124,6 +142,68 @@ export const embedWatermark = (imageUrl: string, text: string): Promise<string> 
             resolve(canvas.toDataURL('image/png'));
         };
         img.onerror = () => reject(new Error("Failed to load image for watermarking."));
+        img.src = imageUrl;
+    });
+};
+
+/**
+ * Extracts an invisible watermark from an image using steganography (LSB).
+ * @param imageUrl The data URL of the image to extract watermark from.
+ * @returns A Promise that resolves with the extracted watermark text, or null if no watermark found.
+ */
+export const extractWatermark = (imageUrl: string): Promise<string | null> => {
+    return new Promise((resolve, reject) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            return reject(new Error("Could not get canvas context."));
+        }
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            let binaryMessage = '';
+            let messageComplete = false;
+
+            // Extract bits from R, G, B channels
+            for (let i = 0; i < data.length && !messageComplete; i += 4) {
+                for (let j = 0; j < 3 && !messageComplete; j++) {
+                    // Extract the LSB
+                    const bit = data[i + j] & 1;
+                    binaryMessage += bit.toString();
+
+                    // Check if we have enough bits to form characters and look for the delimiter
+                    if (binaryMessage.length >= 8 && binaryMessage.length % 8 === 0) {
+                        const currentText = binaryToText(binaryMessage);
+                        if (currentText.includes('::END')) {
+                            messageComplete = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (messageComplete) {
+                const extractedText = binaryToText(binaryMessage);
+                const delimiterIndex = extractedText.indexOf('::END');
+                if (delimiterIndex !== -1) {
+                    const watermarkText = extractedText.substring(0, delimiterIndex);
+                    resolve(watermarkText || null);
+                } else {
+                    resolve(null);
+                }
+            } else {
+                resolve(null);
+            }
+        };
+        img.onerror = () => reject(new Error("Failed to load image for watermark extraction."));
         img.src = imageUrl;
     });
 };
