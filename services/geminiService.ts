@@ -147,7 +147,7 @@ export async function generateVideo(
         }
 
         if (operation.error) {
-            throw new Error(operation.error.message || "Video generation failed during operation.");
+            throw new Error(String(operation.error.message) || "Video generation failed during operation.");
         }
 
         const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;

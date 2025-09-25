@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { TRANSFORMATIONS } from './constants';
-import { editImage, generateVideo } from './services/geminiService';
+import { editImage, generateVideo } from './services/laozhangService';
 import type { GeneratedContent, Transformation } from './types';
 import TransformationSelector from './components/TransformationSelector';
 import ResultDisplay from './components/ResultDisplay';
@@ -140,29 +140,15 @@ const App: React.FC = () => {
         if (primaryImageUrl) {
             const primaryMimeType = primaryImageUrl.split(';')[0].split(':')[1] ?? 'image/png';
             const primaryBase64 = primaryImageUrl.split(',')[1];
-            imagePayload = { base64: primaryBase64, mimeType: primaryMimeType };
+            imagePayload = { data: primaryBase64, mimeType: primaryMimeType };
         }
 
-        const videoDownloadUrl = await generateVideo(
+        const result = await generateVideo(
             promptToUse,
             imagePayload,
             aspectRatio,
-            (message) => setLoadingMessage(message) // Progress callback
+            (progress) => setLoadingMessage(`${t('app.loading.videoGenerating')} ${progress}%`) // Progress callback
         );
-
-        setLoadingMessage(t('app.loading.videoFetching'));
-        const response = await fetch(videoDownloadUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to download video file. Status: ${response.statusText}`);
-        }
-        const blob = await response.blob();
-        const objectUrl = URL.createObjectURL(blob);
-
-        const result: GeneratedContent = {
-            imageUrl: null,
-            text: null,
-            videoUrl: objectUrl
-        };
 
         setGeneratedContent(result);
         setHistory(prev => [result, ...prev]);
@@ -223,8 +209,10 @@ const App: React.FC = () => {
 
             const stepTwoResult = await editImage(stepOneImageBase64, stepOneImageMimeType, selectedTransformation.stepTwoPrompt!, null, secondaryImagePayload);
             
-            if (stepTwoResult.imageUrl) {
-                stepTwoResult.imageUrl = await embedWatermark(stepTwoResult.imageUrl, "Nano Bananary｜ZHO");
+            // 使用环境变量控制水印
+            if (stepTwoResult.imageUrl && import.meta.env.VITE_WATERMARK_ENABLED === 'true') {
+                const watermarkText = import.meta.env.VITE_WATERMARK_TEXT || "Nano Bananary｜ZHO";
+                stepTwoResult.imageUrl = await embedWatermark(stepTwoResult.imageUrl, watermarkText);
             }
 
             const finalResult = { ...stepTwoResult, secondaryImageUrl: stepOneResult.imageUrl };
@@ -241,7 +229,11 @@ const App: React.FC = () => {
             setLoadingMessage(t('app.loading.default'));
             const result = await editImage(primaryBase64, primaryMimeType, promptToUse, maskBase64, secondaryImagePayload);
 
-            if (result.imageUrl) result.imageUrl = await embedWatermark(result.imageUrl, "Nano Bananary｜ZHO");
+            // 使用环境变量控制水印
+            if (result.imageUrl && import.meta.env.VITE_WATERMARK_ENABLED === 'true') {
+                const watermarkText = import.meta.env.VITE_WATERMARK_TEXT || "Nano Bananary｜ZHO";
+                result.imageUrl = await embedWatermark(result.imageUrl, watermarkText);
+            }
 
             setGeneratedContent(result);
             setHistory(prev => [result, ...prev]);
