@@ -1,0 +1,157 @@
+# Prompt Inventory and Security Assessment
+
+## Inventory
+
+- polaroid
+  - prompt: 生成一张亲密合照的拍立得照片。照片带有略微的模糊效果，使用闪光灯在室内拍摄，仿佛派对刚结束。保持亲密又搞笑的姿势，捕捉到轻松有趣的氛围，带有温暖与幽默感
+  - context: single image transform; portrait-like party scene
+- dynamicPolaroid
+  - prompt: 同上
+  - videoPrompt: Make this polaroid photo come to life with subtle, happy movements. The people should laugh and shift slightly, as if captured in a brief, joyful moment. Maintain the polaroid and flash photography aesthetic.
+  - context: image-to-video; 9:16
+- customPrompt
+  - prompt: CUSTOM
+  - context: text-to-image or image-to-image; multi-image optional
+- figurine
+  - prompt: turn this photo into a character figure. Behind it, place a box with the character’s image printed on it, and a computer showing the Blender modeling process on its screen. In front of the box, add a round plastic base with the character figure standing on it. set the scene indoors if possible
+  - context: productized figurine scene; single image
+- videoGeneration
+  - prompt: CUSTOM
+  - context: video generation; optional image reference
+- cosplay
+  - prompt: Generate a highly detailed photo of a girl cosplaying this illustration, at Comiket. Exactly replicate the same pose, body posture, hand gestures, facial expression, and camera framing as in the original illustration. Keep the same angle, perspective, and composition, without any deviation
+  - context: imitation of specific illustration; single image
+- category_effects (effects list)
+  - pixelArt: Redraw the image in a retro 8-bit pixel art style.
+  - watercolor: Transform the image into a soft and vibrant watercolor painting.
+  - popArt: Reimagine the image in the style of Andy Warhol's pop art, with bold colors and screen-print effects.
+  - comicBook: Convert the image into a classic comic book panel with halftones, bold outlines, and action text.
+  - claymation: Recreate the image as a charming stop-motion claymation scene.
+  - ukiyoE: Redraw the image in the style of a traditional Japanese Ukiyo-e woodblock print.
+  - stainedGlass: Transform the image into a vibrant stained glass window with dark lead lines.
+  - origami: Reconstruct the subject of the image using folded paper in an origami style.
+  - neonGlow: Outline the subject in bright, glowing neon lights against a dark background.
+  - doodleArt: Overlay the image with playful, hand-drawn doodle-style illustrations.
+  - vintagePhoto: Give the image an aged, sepia-toned vintage photograph look from the early 20th century.
+  - blueprintSketch: Convert the image into a technical blueprint-style architectural drawing.
+  - glitchArt: Apply a digital glitch effect with datamoshing, pixel sorting, and RGB shifts.
+  - doubleExposure: Create a double exposure effect, blending the image with a nature scene like a forest or a mountain range.
+  - hologram: Project the subject as a futuristic, glowing blue hologram.
+  - lowPoly: Reconstruct the image using a low-polygon geometric mesh.
+  - charcoalSketch: Redraw the image as a dramatic, high-contrast charcoal sketch on textured paper.
+  - impressionism: Repaint the image in the style of an Impressionist masterpiece, with visible brushstrokes and a focus on light.
+  - cubism: Deconstruct and reassemble the subject in the abstract, geometric style of Cubism.
+  - steampunk: Reimagine the subject with steampunk aesthetics, featuring gears, brass, and Victorian-era technology.
+  - fantasyArt: Transform the image into an epic fantasy-style painting, with magical elements and dramatic lighting.
+  - graffiti: Spray-paint the image as vibrant graffiti on a brick wall.
+  - minimalistLineArt: Reduce the image to a single, continuous, minimalist line drawing.
+  - storybook: Redraw the image in the style of a whimsical children's storybook illustration.
+  - thermal: Apply a thermal imaging effect with a heat map color palette.
+  - risograph: Simulate a risograph print effect with grainy textures and limited, overlapping color layers.
+  - crossStitch: Convert the image into a textured, handmade cross-stitch pattern.
+  - tattoo: Redesign the subject as a classic American traditional style tattoo.
+  - psychedelic: Apply a vibrant, swirling, psychedelic art style from the 1960s.
+  - gothic: Reimagine the scene with a dark, gothic art style, featuring dramatic shadows and architecture.
+  - tribal: Redraw the subject using patterns and motifs from traditional tribal art.
+  - dotPainting: Recreate the image using the dot painting technique of Aboriginal art.
+  - chalk: Draw the image as a colorful chalk illustration on a sidewalk.
+  - sandArt: Recreate the image as if it were made from colored sand.
+  - mosaic: Transform the image into a mosaic made of small ceramic tiles.
+  - paperQuilling: Reconstruct the subject using the art of paper quilling, with rolled and shaped strips of paper.
+  - woodCarving: Recreate the subject as a detailed wood carving.
+  - iceSculpture: Transform the subject into a translucent, detailed ice sculpture.
+  - bronzeStatue: Turn the subject into a weathered bronze statue on a pedestal.
+  - galaxy: Blend the image with a vibrant nebula and starry galaxy background.
+  - fire: Reimagine the subject as if it were formed from roaring flames.
+  - water: Reimagine the subject as if it were formed from flowing, liquid water.
+  - smokeArt: Create the subject from elegant, swirling wisps of smoke.
+  - vectorArt: Convert the photo into clean, scalable vector art with flat colors and sharp lines.
+  - infrared: Simulate an infrared photo effect with surreal colors and glowing foliage.
+  - knitted: Recreate the image as a cozy, knitted wool pattern.
+  - etching: Redraw the image as a classic black and white etching or engraving.
+  - diorama: Turn the scene into a miniature 3D diorama inside a box.
+- pose
+  - prompt: Apply the pose from the second image to the character in the first image. Render as a professional studio photograph.
+  - context: multi-image; pose transfer
+- expressionReference
+  - prompt: Change the expression of the character in the first image to match the expression of the character in the second image.
+  - context: multi-image; facial expression transfer
+- lineArt
+  - prompt: Turn the image into a clean, hand-drawn line art sketch.
+  - context: single image
+- colorPalette
+  - prompt: Turn this image into a clean, hand-drawn line art sketch.
+  - stepTwoPrompt: Color the line art using the colors from the second image.
+  - context: two-step; palette transfer
+- iphoneWallpaper
+  - prompt: Turn the image into an iPhone lock screen wallpaper effect, with the phone's time (01:16), date (Sunday, September 16), and status bar information (battery, signal, etc.), with the flashlight and camera buttons at the bottom, overlaid on the image. The original image should be adapted to a vertical composition that fits a phone screen. The phone is placed on a solid color background of the same color scheme.
+  - context: branding overlays; device UI mock
+- sodaCan
+  - prompt: Design a soda can using this image as the main graphic, and show it in a professional product shot.
+  - context: product mockup
+- minimalistIllustration
+  - prompt: Turn the people in these images into cute, black and white minimalist illustrations. Each person should be drawn with their unique characteristics and a fitting small prop. The lines should be elegant, and the hair should be a solid black block. Arrange all characters into a single grid image.
+  - context: up to 4 images; identity abstraction
+- funko
+  - prompt: Transform the person into a Funko Pop figure, shown inside and next to its packaging.
+  - context: branded toy likeness
+- lego
+  - prompt: Transform the person into a LEGO minifigure, inside its packaging box.
+  - context: branded toy likeness
+- crochet
+  - prompt: Transform the subject into a handmade crocheted yarn doll with a cute, chibi-style appearance.
+  - context: toy likeness
+- plushie
+  - prompt: Turn the person in this photo into a cute, soft plushie doll.
+  - context: toy likeness
+- keychain
+  - prompt: Turn the subject into a cute acrylic keychain, shown attached to a bag.
+  - context: accessory mockup
+- hdEnhance
+  - prompt: Enhance this image to high resolution, improving sharpness and clarity.
+  - context: upscaling
+- photorealistic
+  - prompt: Turn this illustration into a photorealistic version.
+  - context: realism conversion
+- fashion
+  - prompt: Transform the photo into a stylized, ultra-realistic fashion magazine portrait with cinematic lighting.
+  - context: portrait glamorization
+- hyperrealistic
+  - prompt: Generate a hyper-realistic, fashion-style photo with strong, direct flash lighting, grainy texture, and a cool, confident pose.
+  - context: aggressive stylization
+- architecture
+  - prompt: Convert this photo of a building into a miniature architecture model, placed on a cardstock in an indoor setting. Show a computer with modeling software in the background.
+  - context: productized building model
+- productRender
+  - prompt: Turn this product sketch into a photorealistic 3D render with studio lighting.
+  - context: concept-to-render
+- industrialDesign
+  - prompt: Turn this industrial design sketch into a realistic product photo, rendered with light brown leather and displayed in a minimalist museum setting.
+  - context: concept-to-product
+- isolate
+  - prompt: Isolate the person in the masked area and generate a high-definition photo of them against a neutral background.
+  - context: segmentation; masking
+- screen3d
+  - prompt: For an image with a screen, add content that appears to be glasses-free 3D, popping out of the screen.
+  - context: display augmentation
+- makeup
+  - prompt: Analyze the makeup in this photo and suggest improvements by drawing with a red pen.
+  - context: annotation; critique
+- background
+  - prompt: Change the background to a Y2K aesthetic style.
+  - context: background replacement
+- addIllustration
+  - prompt: Add a cute, cartoon-style illustrated couple into the real-world scene, sitting and talking.
+  - context: mixed reality
+- paintingProcess
+  - prompt: Generate a 4-panel grid showing the artistic process of creating this image, from sketch to final render.
+  - context: workflow visualization
+- markerSketch
+  - prompt: Redraw the image in the style of a Copic marker sketch, often used in design.
+  - context: design sketch style
+- cyberpunk
+  - prompt: Transform the scene into a futuristic cyberpunk city.
+  - context: environment transformation
+- vanGogh
+  - prompt: Reimagine the photo in the style of Van Gogh's 'Starry Night'.
+  - context: artist style transfer
